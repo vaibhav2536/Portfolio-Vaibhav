@@ -22,7 +22,7 @@ export const experiences: Experience[] = [
     id: "1",
     title: "Product Resource Developer",
     company: "Turing",
-    duration: "Mar 2025 - Present",
+    duration: "Mar 2025 - July 2025",
     description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
     achievements: [
       "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
@@ -131,7 +131,7 @@ export const achievements: Achievement[] = [
     id: "3",
     title: "Technical Lead - Impact Club, IIIT Sonepat",
     description: "Managed technical infrastructure for 500+ students as Technical Lead",
-    date: "2022-2024",
+    date: "2024",
     type: "recognition"
   },
   {
