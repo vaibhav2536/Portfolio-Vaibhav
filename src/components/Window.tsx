@@ -69,12 +69,14 @@ const Window: React.FC<WindowProps> = ({
   const getDockIconPosition = () => {
     const dockItems = ['about', 'skills', 'experience', 'projects', 'achievements', 'resume', 'links'];
     const index = dockItems.indexOf(window.id);
-    const dockWidth = dockItems.length * 56 + (dockItems.length - 1) * 8;
+    const itemWidth = window.innerWidth < 640 ? 48 : 64;
+    const spacing = window.innerWidth < 640 ? 4 : 8;
+    const dockWidth = dockItems.length * itemWidth + (dockItems.length - 1) * spacing;
     const startX = (window.innerWidth - dockWidth) / 2;
     
     return {
-      x: startX + (index * 64),
-      y: window.innerHeight - 60
+      x: startX + (index * (itemWidth + spacing)),
+      y: window.innerHeight - (window.innerWidth < 640 ? 50 : 60)
     };
   };
 
@@ -135,9 +137,10 @@ const Window: React.FC<WindowProps> = ({
     
     if (window.isMinimized) {
       const dockPosition = getDockIconPosition();
+      const iconSize = window.innerWidth < 640 ? 48 : 56;
       return {
-        width: '56px',
-        height: '56px',
+        width: `${iconSize}px`,
+        height: `${iconSize}px`,
         top: dockPosition.y,
         left: dockPosition.x,
       };
@@ -155,7 +158,7 @@ const Window: React.FC<WindowProps> = ({
     <AnimatePresence>
       <motion.div
         ref={windowRef}
-        className={`fixed backdrop-blur-2xl rounded-2xl shadow-2xl border overflow-hidden ${
+        className={`fixed backdrop-blur-2xl rounded-xl sm:rounded-2xl shadow-2xl border overflow-hidden ${
           window.isFullscreen ? 'rounded-none' : ''
         }`}
         style={{
@@ -188,11 +191,11 @@ const Window: React.FC<WindowProps> = ({
         transition={{ duration: 0.2 }}
       >
         {/* Frosted Glass Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none rounded-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none rounded-xl sm:rounded-2xl" />
         
         {/* Window Header */}
         <motion.div
-          className="window-header relative flex items-center justify-between px-4 py-3 backdrop-blur-sm border-b cursor-move flex-shrink-0"
+          className="window-header relative flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-sm border-b cursor-move flex-shrink-0"
           style={{
             background: 'rgba(255, 255, 255, 0.1)',
             borderColor: 'rgba(255, 255, 255, 0.15)',
@@ -210,11 +213,11 @@ const Window: React.FC<WindowProps> = ({
             isFullscreen={window.isFullscreen}
           />
           <div className="flex-1 text-center">
-            <h2 className="text-sm font-medium text-white/90 drop-shadow-sm">
+            <h2 className="text-xs sm:text-sm font-medium text-white/90 drop-shadow-sm truncate px-2">
               {window.title}
             </h2>
           </div>
-          <div className="w-14" />
+          <div className="w-10 sm:w-14" />
           
           {/* Header Shine Effect */}
           <motion.div
@@ -234,7 +237,7 @@ const Window: React.FC<WindowProps> = ({
         {/* Window Content */}
         <div 
           className="flex-1 overflow-hidden relative" 
-          style={{ height: 'calc(100% - 57px)' }}
+          style={{ height: 'calc(100% - 45px)' }}
         >
           {/* Content Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-black/10 to-black/30 backdrop-blur-sm" />
@@ -249,8 +252,8 @@ const Window: React.FC<WindowProps> = ({
         </div>
         
         {/* Window Border Glow */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none">
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-50" />
+        <div className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none">
+          <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-50" />
         </div>
       </motion.div>
     </AnimatePresence>

@@ -20,12 +20,14 @@ export const useWindowManager = () => {
   const getDockIconPosition = (windowId: string) => {
     const dockItems = ['about', 'skills', 'experience', 'projects', 'achievements', 'resume', 'links'];
     const index = dockItems.indexOf(windowId);
-    const dockWidth = dockItems.length * 56 + (dockItems.length - 1) * 8; // 56px per item + 8px spacing
+    const itemWidth = window.innerWidth < 640 ? 48 : 64; // Responsive item width
+    const spacing = window.innerWidth < 640 ? 4 : 8; // Responsive spacing
+    const dockWidth = dockItems.length * itemWidth + (dockItems.length - 1) * spacing;
     const startX = (window.innerWidth - dockWidth) / 2;
     
     return {
-      x: startX + (index * 64), // 56px width + 8px spacing
-      y: window.innerHeight - 60 // 60px from bottom
+      x: startX + (index * (itemWidth + spacing)),
+      y: window.innerHeight - (window.innerWidth < 640 ? 50 : 60) // Responsive dock height
     };
   };
 
@@ -34,28 +36,59 @@ export const useWindowManager = () => {
     const viewportHeight = window.innerHeight;
     const dockHeight = 100;
     
-    // Calculate optimal size based on viewport and content type
-    const maxWidth = Math.min(1200, viewportWidth - 80);
-    const maxHeight = Math.min(800, viewportHeight - dockHeight - 80);
-    
-    // Larger default sizes for better content viewing
-    switch (id) {
-      case 'about':
-        return { width: Math.min(800, maxWidth), height: Math.min(650, maxHeight) };
-      case 'skills':
-        return { width: Math.min(1100, maxWidth), height: Math.min(750, maxHeight) };
-      case 'experience':
-        return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
-      case 'achievements':
-        return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
-      case 'projects':
-        return { width: Math.min(1100, maxWidth), height: Math.min(750, maxHeight) };
-      case 'resume':
-        return { width: Math.min(700, maxWidth), height: Math.min(600, maxHeight) };
-      case 'links':
-        return { width: Math.min(650, maxWidth), height: Math.min(550, maxHeight) };
-      default:
-        return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
+    // Mobile-first responsive sizing
+    if (viewportWidth < 640) {
+      // Mobile sizes
+      return {
+        width: Math.min(viewportWidth - 20, 380),
+        height: Math.min(viewportHeight - dockHeight - 40, 500)
+      };
+    } else if (viewportWidth < 1024) {
+      // Tablet sizes
+      const maxWidth = Math.min(700, viewportWidth - 60);
+      const maxHeight = Math.min(600, viewportHeight - dockHeight - 60);
+      
+      switch (id) {
+        case 'about':
+          return { width: Math.min(600, maxWidth), height: Math.min(550, maxHeight) };
+        case 'skills':
+          return { width: Math.min(700, maxWidth), height: Math.min(600, maxHeight) };
+        case 'experience':
+          return { width: Math.min(650, maxWidth), height: Math.min(580, maxHeight) };
+        case 'achievements':
+          return { width: Math.min(650, maxWidth), height: Math.min(580, maxHeight) };
+        case 'projects':
+          return { width: Math.min(700, maxWidth), height: Math.min(600, maxHeight) };
+        case 'resume':
+          return { width: Math.min(500, maxWidth), height: Math.min(450, maxHeight) };
+        case 'links':
+          return { width: Math.min(450, maxWidth), height: Math.min(400, maxHeight) };
+        default:
+          return { width: Math.min(650, maxWidth), height: Math.min(550, maxHeight) };
+      }
+    } else {
+      // Desktop sizes
+      const maxWidth = Math.min(1200, viewportWidth - 80);
+      const maxHeight = Math.min(800, viewportHeight - dockHeight - 80);
+      
+      switch (id) {
+        case 'about':
+          return { width: Math.min(800, maxWidth), height: Math.min(650, maxHeight) };
+        case 'skills':
+          return { width: Math.min(1100, maxWidth), height: Math.min(750, maxHeight) };
+        case 'experience':
+          return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
+        case 'achievements':
+          return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
+        case 'projects':
+          return { width: Math.min(1100, maxWidth), height: Math.min(750, maxHeight) };
+        case 'resume':
+          return { width: Math.min(700, maxWidth), height: Math.min(600, maxHeight) };
+        case 'links':
+          return { width: Math.min(650, maxWidth), height: Math.min(550, maxHeight) };
+        default:
+          return { width: Math.min(900, maxWidth), height: Math.min(700, maxHeight) };
+      }
     }
   };
 
@@ -88,8 +121,8 @@ export const useWindowManager = () => {
       
       const size = getOptimalWindowSize(id);
       const basePosition = { 
-        x: Math.max(50, (window.innerWidth - size.width) / 2 + (prev.length * 30)), 
-        y: Math.max(50, (window.innerHeight - size.height - 100) / 2 + (prev.length * 20))
+        x: Math.max(10, (window.innerWidth - size.width) / 2 + (prev.length * 20)), 
+        y: Math.max(30, (window.innerHeight - size.height - 100) / 2 + (prev.length * 15))
       };
       const constrainedPosition = constrainToViewport(basePosition, size);
       

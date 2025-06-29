@@ -66,7 +66,7 @@ const WindowControls: React.FC<WindowControlsProps> = ({
   ];
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-1.5 sm:space-x-2">
       {controls.map((control, index) => {
         const Icon = control.icon;
         
@@ -78,7 +78,7 @@ const WindowControls: React.FC<WindowControlsProps> = ({
             whileHover="hover"
             whileTap="tap"
             onClick={control.onClick}
-            className={`w-4 h-4 ${control.className} rounded-full transition-colors duration-150 group flex items-center justify-center relative overflow-hidden`}
+            className={`w-3 h-3 sm:w-4 sm:h-4 ${control.className} rounded-full transition-colors duration-150 group flex items-center justify-center relative overflow-hidden`}
             style={{
               boxShadow: `0 2px 8px ${control.shadowColor}, inset 0 1px 0 rgba(255, 255, 255, 0.3)`,
             }}
@@ -93,7 +93,7 @@ const WindowControls: React.FC<WindowControlsProps> = ({
               whileHover="hover"
               className="absolute inset-0 flex items-center justify-center"
             >
-              <Icon className={`w-2.5 h-2.5 ${
+              <Icon className={`w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 ${
                 index === 0 ? 'text-red-900' : 
                 index === 1 ? 'text-yellow-900' : 
                 'text-green-900'

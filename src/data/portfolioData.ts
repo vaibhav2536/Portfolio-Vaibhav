@@ -131,14 +131,14 @@ export const achievements: Achievement[] = [
     id: "3",
     title: "Technical Lead - Impact Club, IIIT Sonepat",
     description: "Managed technical infrastructure for 500+ students as Technical Lead",
-    date: "2024",
+    date: "2022-2024",
     type: "recognition"
   },
   {
     id: "4",
     title: "General Secretary - Sports Club, IIIT Sonepat",
     description: "Led 20-member team and managed 100,000+ budget as General Secretary",
-    date: "2024",
+    date: "2022-2024",
     type: "recognition"
   }
 ];
