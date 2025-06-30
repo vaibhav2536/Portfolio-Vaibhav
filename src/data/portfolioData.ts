@@ -3,7 +3,7 @@ import { Project, Experience, Achievement } from '../types';
 export const personalInfo = {
   name: "Vaibhav Dinkar",
   title: "Software Developer",
-  bio: "Software Developer with experience in MERN stack development and AWS. Demonstrated success in optimizing application performance by 40% and implementing enterprise-grade security systems. Strong problem-solving abilities with 400+ DSA problems solved at 90% success rate. Proven track record of leading technical teams to achieve 50% efficiency improvements through innovative solutions.",
+  bio: "I'm a passionate Software Developer with hands-on experience in building robust and scalable applications using the MERN stack and AWS. I enjoy crafting efficient systems and optimizing performance across the stack, with a proven ability to boost application speed and reliability. With over 400+ DSA problems solved at a 90%+ success rate, I bring strong problem-solving skills and a solid grasp of core computer science fundamentals. My growing interest in Data Science complements my development skills, allowing me to approach problems with both engineering precision and data-driven insight. I've contributed to fast-paced teams and companies where I built and maintained high-quality software solutions while fostering collaboration and technical excellence. I also have experience leading teams and managing technical initiatives—balancing code with communication and impact. Let's build something meaningful and innovative together!",
   avatar: "/photo_vaibhav.jpg",
   location: "India",
   email: "vaibhavdinkar2536@gmail.com",
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     id: "4",
     title: "Pharmacy ML System",
     description: "Machine learning-powered pharmacy management system with predictive analytics for inventory management, drug interaction checking, and automated prescription processing.",
-    techStack: ["Python", "Machine Learning", "Flask", "React", "PostgreSQL"],
+    techStack: ["Python", "Machine Learning", "Flask", "React"],
     liveUrl: "https://pharmacy-ml-1.onrender.com",
     githubUrl: "https://github.com/vaibhav2536/Pharmacy-ML",
     image: "/Pharmacy ML System.png"
