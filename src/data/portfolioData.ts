@@ -22,10 +22,13 @@ export const experiences: Experience[] = [
     id: "1",
     title: "Software Development Engineer",
     company: "Turing",
-    duration: "Mar 2025 - July 2025",
+    duration: "Mar 2025 - Present",
     description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
     achievements: [
-      "I'm a passionate Software Developer with hands-on experience in building robust and scalable applications using the MERN stack and AWS. I enjoy crafting efficient systems and optimizing performance across the stack, with a proven ability to boost application speed and reliability. With over 400+ DSA problems solved at a 90%+ success rate, I bring strong problem-solving skills and a solid grasp of core computer science fundamentals. My growing interest in Data Science complements my development skills, allowing me to approach problems with both engineering precision and data-driven insight. I've contributed to fast-paced teams and companies where I built and maintained high-quality software solutions while fostering collaboration and technical excellence. I also have experience leading teams and managing technical initiatives—balancing code with communication and impact. Let's build something meaningful and innovative together!"
+      "Creating structured PRDs that successfully pass multiple technical test cases with 95% accuracy standards",
+      "Engineering specialized documentation used to train and refine Large Language Models (LLMs) like Claude",
+      "Collaborating with cross-functional teams to ensure comprehensive and precise documentation standards",
+      "Applying prompt engineering techniques to design inputs that align with intended AI behavior and edge-case handling"
     ]
   },
   {
@@ -168,5 +171,6 @@ export const technicalSkills = {
   backend: ["Node.js", "Express.js", "RESTful APIs", "Mongoose", "MongoDB", "SQL", "Database Design"],
   cloudDevOps: ["AWS (EC2, S3, IAM)", "Docker", "Git", "CI/CD", "System Architecture"],
   coreCS: ["Data Structure", "Algorithm", "OOP", "Operating Systems", "C", "C++", "Python", "SDLC"],
-  softSkills: ["Problem Solving", "Team Leadership", "Communication", "Time Management"]
+  dataScience: ["Python", "Machine Learning", "Computer Vision", "OpenCV", "MediaPipe", "NumPy", "Pandas", "Scikit-learn", "TensorFlow", "Data Analysis", "Image Processing", "Real-time Detection", "Statistical Analysis"],
+  softSkills: ["Problem Solving", "Team Leadership", "Communication", "Time Management", "Collaboration"]
 };

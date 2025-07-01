@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, Database, Cloud, Cpu, Users, Lightbulb } from 'lucide-react';
+import { Code, Database, Cloud, Cpu, Users, Lightbulb, Brain } from 'lucide-react';
 import { technicalSkills } from '../../data/portfolioData';
 
 const SkillsWindow: React.FC = () => {
@@ -19,6 +19,14 @@ const SkillsWindow: React.FC = () => {
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-900/10",
       borderColor: "border-green-800"
+    },
+    {
+      title: "Data Science & ML",
+      icon: Brain,
+      skills: technicalSkills.dataScience,
+      color: "from-indigo-500 to-indigo-600",
+      bgColor: "bg-indigo-900/10",
+      borderColor: "border-indigo-800"
     },
     {
       title: "Cloud & DevOps",
