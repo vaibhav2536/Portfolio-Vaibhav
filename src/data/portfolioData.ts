@@ -150,7 +150,7 @@ export const socialLinks = [
     icon: "Twitter"
   },
   {
-    name: "Codelio",
+    name: "Codolio",
     url: "https://codolio.com/profile/vaibhavdinkar",
     icon: "Code"
   }
