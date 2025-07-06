@@ -1,4 +1,4 @@
-import { Project, Experience, Achievement } from '../types';
+import { Project, Experience, Achievement } from "../types";
 
 export const personalInfo = {
   name: "Vaibhav Dinkar",
@@ -22,14 +22,9 @@ export const experiences: Experience[] = [
     id: "1",
     title: "Software Development Engineer",
     company: "Turing",
-    duration: "Mar 2025 - Present",
+    duration: "Mar 2025 - Jul 2025",
     description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
-    achievements: [
-      "Creating structured PRDs that successfully pass multiple technical test cases with 95% accuracy standards",
-      "Engineering specialized documentation used to train and refine Large Language Models (LLMs) like Claude",
-      "Collaborating with cross-functional teams to ensure comprehensive and precise documentation standards",
-      "Applying prompt engineering techniques to design inputs that align with intended AI behavior and edge-case handling"
-    ]
+    achievements: ["Creating structured PRDs that successfully pass multiple technical test cases with 95% accuracy standards", "Engineering specialized documentation used to train and refine Large Language Models (LLMs) like Claude", "Collaborating with cross-functional teams to ensure comprehensive and precise documentation standards", "Applying prompt engineering techniques to design inputs that align with intended AI behavior and edge-case handling"]
   },
   {
     id: "2",
@@ -37,12 +32,7 @@ export const experiences: Experience[] = [
     company: "Codefeast",
     duration: "Jul 2024 - Dec 2024",
     description: "Developed full-stack web applications using MERN stack, improving system performance and user experience",
-    achievements: [
-      "Developed full-stack web applications using MERN stack, improving system performance and user experience",
-      "Implemented microservices architecture with RESTful APIs, handling 1,000+ daily user interactions",
-      "Designed and optimized database schemas using MongoDB, reducing query response times by 35%",
-      "Established robust CI/CD pipelines using Docker and AWS services, streamlining deployment processes"
-    ]
+    achievements: ["Developed full-stack web applications using MERN stack, improving system performance and user experience", "Implemented microservices architecture with RESTful APIs, handling 1,000+ daily user interactions", "Designed and optimized database schemas using MongoDB, reducing query response times by 35%", "Established robust CI/CD pipelines using Docker and AWS services, streamlining deployment processes"]
   }
 ];
 
