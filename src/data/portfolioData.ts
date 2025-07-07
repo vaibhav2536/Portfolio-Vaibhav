@@ -157,7 +157,7 @@ export const socialLinks = [
 ];
 
 export const technicalSkills = {
-  frontend: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "Bootstrap", "Web Optimization"],
+  frontend: ["React.js", "TypeScript", "Next.js", "JavaScript (ES6+)", "HTML5", "CSS3", "Bootstrap", "Web Optimization"],
   backend: ["Node.js", "Express.js", "RESTful APIs", "Mongoose", "MongoDB", "SQL", "Database Design"],
   cloudDevOps: ["AWS (EC2, S3, IAM)", "Docker", "Git", "CI/CD", "System Architecture"],
   coreCS: ["Data Structure", "Algorithm", "OOP", "Operating Systems", "C", "C++", "Python", "SDLC"],
