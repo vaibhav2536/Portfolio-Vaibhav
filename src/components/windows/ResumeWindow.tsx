@@ -2,8 +2,8 @@ import React from 'react';
 import { Download, Eye, FileText, ExternalLink } from 'lucide-react';
 
 const ResumeWindow: React.FC = () => {
-  const resumeViewUrl = "https://drive.google.com/file/d/1N-LyFrxnEv0eYtagTQYcLPzeagxZpyi5/view?usp=sharing";
-  const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1N-LyFrxnEv0eYtagTQYcLPzeagxZpyi5";
+  const resumeViewUrl = "https://drive.google.com/file/d/1iWp_imCdVq50CaHA1AXGuJMf9Jo4oekj/view?usp=sharing";
+  const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1iWp_imCdVq50CaHA1AXGuJMf9Jo4oekj";
 
   const handleView = () => {
     window.open(resumeViewUrl, '_blank');
