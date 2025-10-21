@@ -3,7 +3,7 @@ import { Project, Experience, Achievement } from "../types";
 export const personalInfo = {
   name: "Vaibhav Dinkar",
   title: "Software Developer",
-  bio: "I'm a passionate Software Developer with hands-on experience in building robust and scalable applications using the MERN stack and AWS. I enjoy crafting efficient systems and optimizing performance across the stack, with a proven ability to boost application speed and reliability. With over 400+ DSA problems solved at a 90%+ success rate, I bring strong problem-solving skills and a solid grasp of core computer science fundamentals. My growing interest in Data Science complements my development skills, allowing me to approach problems with both engineering precision and data-driven insight. I've contributed to fast-paced teams and companies where I built and maintained high-quality software solutions while fostering collaboration and technical excellence. I also have experience leading teams and managing technical initiatives—balancing code with communication and impact. Let's build something meaningful and innovative together!",
+  bio: "I'm a passionate Software Developer with expertise in building scalable and high-performance MERN stack applications, along with hands-on experience in AWS and cloud infrastructure. I specialize in optimizing application speed, designing efficient architectures, and ensuring seamless end-to-end functionality. With over 600+ DSA problems solved at a strong success rate, I bring excellent problem-solving abilities and a solid grasp of computer science fundamentals. My growing focus on Data Science enhances my development skills, helping me build data-driven and intelligent systems. Having contributed to companies like Zingbus, Turing, and Codefeast, I've delivered impactful, production-level solutions in fast-paced environments. I also bring leadership experience managing teams and initiatives—balancing technical depth with collaboration and real-world impact. Let's build something innovative, scalable, and meaningful together!",
   avatar: "/photo_vaibhav.jpg",
   location: "India",
   email: "vaibhavdinkar2536@gmail.com",
@@ -20,19 +20,27 @@ export const education = {
 export const experiences: Experience[] = [
   {
     id: "1",
-    title: "Software Development Engineer",
-    company: "Turing",
-    duration: "Mar 2025 - Jul 2025",
-    description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
-    achievements: ["Creating structured PRDs that successfully pass multiple technical test cases with 95% accuracy standards", "Engineering specialized documentation used to train and refine Large Language Models (LLMs) like Claude", "Collaborating with cross-functional teams to ensure comprehensive and precise documentation standards", "Applying prompt engineering techniques to design inputs that align with intended AI behavior and edge-case handling"]
+    title: "Associate Software Development Engineer",
+    company: "Zingbus",
+    duration: "Aug 2025 - Present",
+    description: "Improved UI performance, integrated APIs with analytics, and fixed browser compatibility issues for a smoother cross-platform experience.",
+    achievements: [" Revamped the entire home page of the Zingbus B2B main application with complete API integrations and Mixpanel event tracking for both Mobile Web (MWeb)and DesktopWeb(DWeb), enhancing performance, analytics, and overall usability", "Worked on core logic of price visibility across different user scenarios in bus-tickets, seat-layout, and checkout modules", " Resolved a browser-specific login issue on Brave where users couldn't access home and rescheduling pages, ensuring seamless authentication across all browsers."]
   },
   {
     id: "2",
     title: "Software Development Engineer",
+    company: "Turing",
+    duration: "Mar 2025 - Jul 2025",
+    description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
+    achievements: ["Developed high-quality PRDs for Anthropic's AI training with 95% technical accuracy", "Engineered structured documentation to train and refine LLMs like Claude", "Collaborated with cross-functional teams for standardized documentation practices"]
+  },
+  {
+    id: "3",
+    title: "Software Development Engineer",
     company: "Codefeast",
     duration: "Jul 2024 - Dec 2024",
     description: "Developed full-stack web applications using MERN stack, improving system performance and user experience",
-    achievements: ["Developed full-stack web applications using MERN stack, improving system performance and user experience", "Implemented microservices architecture with RESTful APIs, handling 1,000+ daily user interactions", "Designed and optimized database schemas using MongoDB, reducing query response times by 35%", "Established robust CI/CD pipelines using Docker and AWS services, streamlining deployment processes"]
+    achievements: ["Built full-stack MERN applications with optimized database schemas, improving performance by 35%", "Designed RESTful microservices handling 1,000+ daily user interactions", "Automated deployments with CI/CD pipelines using Docker and AWS"]
   }
 ];
 
@@ -103,11 +111,11 @@ export const projects: Project[] = [
 export const achievements: Achievement[] = [
   {
     id: "1",
-    title: "Coding Champion - Rank 1",
-    description: "Secured Rank 1 in ConnectWise x GFG Engineering Intern Contest, demonstrating exceptional problem-solving skills",
+    title: "Letter of Recommendation",
+    description: "Received outstanding recommendation from Codefeast Founder with 9/10 rating for dedication and technical skills",
     date: "2024",
-    type: "award",
-    link: "https://practice.geeksforgeeks.org/contest/engineering-intern-contest-connectwise-x-gfg/leaderboard"
+    type: "certification",
+    link: "https://drive.google.com/file/d/17IjJ1nTO0K-LrhRGprBoVDCxTU_6Rvxz/view"
   },
   {
     id: "2",
@@ -119,13 +127,21 @@ export const achievements: Achievement[] = [
   },
   {
     id: "3",
+    title: "Coding Champion - Rank 1",
+    description: "Secured Rank 1 in ConnectWise x GFG Engineering Intern Contest, demonstrating exceptional problem-solving skills",
+    date: "2024",
+    type: "award",
+    link: "https://practice.geeksforgeeks.org/contest/engineering-intern-contest-connectwise-x-gfg/leaderboard"
+  },
+  {
+    id: "4",
     title: "Technical Lead - Impact Club, IIIT Sonepat",
     description: "Managed technical infrastructure for 500+ students as Technical Lead",
     date: "2022-2024",
     type: "recognition"
   },
   {
-    id: "4",
+    id: "5",
     title: "General Secretary - Sports Club, IIIT Sonepat",
     description: "Led 20-member team and managed 100,000+ budget as General Secretary",
     date: "2022-2024",
