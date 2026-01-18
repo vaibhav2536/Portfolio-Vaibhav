@@ -32,7 +32,7 @@ const ProjectsWindow: React.FC = () => {
                     {project.title}
                   </h2>
                   
-                  <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base line-clamp-3 leading-relaxed">
+                  <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed">
                     {project.description}
                   </p>
                   

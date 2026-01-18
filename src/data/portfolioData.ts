@@ -3,7 +3,7 @@ import { Project, Experience, Achievement } from "../types";
 export const personalInfo = {
   name: "Vaibhav Dinkar",
   title: "Software Developer",
-  bio: "I'm a passionate Software Developer with expertise in building scalable and high-performance MERN stack applications, along with hands-on experience in AWS and cloud infrastructure. I specialize in optimizing application speed, designing efficient architectures, and ensuring seamless end-to-end functionality. With over 600+ DSA problems solved at a strong success rate, I bring excellent problem-solving abilities and a solid grasp of computer science fundamentals. My growing focus on Data Science enhances my development skills, helping me build data-driven and intelligent systems. Having contributed to companies like Zingbus, Turing, and Codefeast, I've delivered impactful, production-level solutions in fast-paced environments. I also bring leadership experience managing teams and initiatives—balancing technical depth with collaboration and real-world impact. Let's build something innovative, scalable, and meaningful together!",
+  bio: "I'm a performance driven Software Developer with strong expertise in full stack development, cloud infrastructure, and problem solving. I specialize in building scalable, high performance applications using the MERN stack and AWS, with a focus on speed, reliability, and maintainability. Currently, I work as an Associate Software Development Engineer at Zingbus, contributing across B2C and B2B platforms. I've led end-to-end development of high impact features, including a complete B2C home page revamp and the Lounge Pass module, handling UI, API integration, analytics, and production readiness. I also work extensively on backend APIs, core booking logic, and daily JIRA driven feature and bug fixes. Alongside my full time role, I work as a Freelance Software Engineer, delivering end-to-end full stack solutions, data-driven platforms using Snowflake and Tableau, and AI/ML powered applications for numerous global clients. Previously, I interned at Turing, contributing to high accuracy AI training documentation for Anthropic's LLMs, and at Codefeast, where I built scalable systems, optimized databases, and automated deployments using Docker, CI/CD, and AWS. With 600+ DSA problems solved, AWS certification, and recognition as #1 Coding Champion (ConnectWise x GeeksforGeeks), I bring strong CS fundamentals and a passion for open source, AI, and mentorship.",
   avatar: "/photo_vaibhav.jpg",
   location: "India",
   email: "vaibhavdinkar2536@gmail.com",
@@ -23,15 +23,15 @@ export const experiences: Experience[] = [
     title: "Associate Software Development Engineer",
     company: "Zingbus",
     duration: "Aug 2025 - Present",
-    description: "Improved UI performance, integrated APIs with analytics, and fixed browser compatibility issues for a smoother cross-platform experience.",
-    achievements: [" Revamped the entire home page of the Zingbus B2B main application with complete API integrations and Mixpanel event tracking for both Mobile Web (MWeb)and DesktopWeb(DWeb), enhancing performance, analytics, and overall usability", "Worked on core logic of price visibility across different user scenarios in bus-tickets, seat-layout, and checkout modules", " Resolved a browser-specific login issue on Brave where users couldn't access home and rescheduling pages, ensuring seamless authentication across all browsers."]
+    // description: "Improved UI performance, integrated APIs with analytics, and fixed browser compatibility issues for a smoother cross-platform experience.",
+    achievements: ["Owned end-to-end UI development and API integration across B2C and B2B applications, delivering multiple production-ready modules.", "Led the B2C Home Page revamp (Mobile and Desktop), delivered the Lounge Pass module end to end, and contributed to Trip-Tile price streamlining across booking flows.", "Built and enhanced backend APIs and handled JIRA-driven frontend and backend bug fixes, ensuring performance, stability, and smooth user experience."]
   },
   {
     id: "2",
     title: "Software Development Engineer",
     company: "Turing",
     duration: "Mar 2025 - Jul 2025",
-    description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
+    // description: "Developing high-quality, technically robust Product Requirement Documents (PRDs) for Anthropic's AI training initiatives",
     achievements: ["Developed high-quality PRDs for Anthropic's AI training with 95% technical accuracy", "Engineered structured documentation to train and refine LLMs like Claude", "Collaborated with cross-functional teams for standardized documentation practices"]
   },
   {
@@ -39,8 +39,8 @@ export const experiences: Experience[] = [
     title: "Software Development Engineer",
     company: "Codefeast",
     duration: "Jul 2024 - Dec 2024",
-    description: "Developed full-stack web applications using MERN stack, improving system performance and user experience",
-    achievements: ["Built full-stack MERN applications with optimized database schemas, improving performance by 35%", "Designed RESTful microservices handling 1,000+ daily user interactions", "Automated deployments with CI/CD pipelines using Docker and AWS"]
+    // description: "Developed full-stack web applications using MERN stack, improving system performance and user experience",
+    achievements: ["Built full-stack MERN applications with optimized database schemas,improving performance by 35%", "Designed RESTful microservices handling 1,000+ daily user interactions", "Automated deployments with CI/CD pipelines using Docker and AWS"]
   }
 ];
 

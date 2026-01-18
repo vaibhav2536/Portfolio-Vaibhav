@@ -2,13 +2,13 @@ import React from 'react';
 import { Download, Eye, FileText, ExternalLink } from 'lucide-react';
 
 const ResumeWindow: React.FC = () => {
-  const resumeViewUrl = "https://drive.google.com/file/d/1LfrNCwfazfs-mPy5tfEBKeUZtK5akFte/view?usp=sharing";
-  const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1LfrNCwfazfs-mPy5tfEBKeUZtK5akFte";
+  const resumeViewUrl = "https://drive.google.com/file/d/1G769gUzELA8ktQFp3E2sD69PiUnVtszm/view?usp=sharing";
+  const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1G769gUzELA8ktQFp3E2sD69PiUnVtszm";
 
   const handleView = () => {
     window.open(resumeViewUrl, '_blank');
   };
-
+  
   const handleDownload = () => {
     window.open(resumeDownloadUrl, '_blank');
   };
