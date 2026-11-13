@@ -22,7 +22,7 @@ const LinksWindow: React.FC = () => (
           Let's <span className="text-gradient">talk</span>
         </>
       }
-      subtitle="Hiring, a project for Outlynk, an AI training program, or just want to nerd out about benchmarks? My inbox is open."
+      subtitle="Hiring, a project for Outlynk, an AI training program, or just want to talk AI? My inbox is open."
     />
 
     <div className="grid gap-3 sm:grid-cols-2">

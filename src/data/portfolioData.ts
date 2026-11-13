@@ -9,14 +9,14 @@ export const personalInfo = {
     "Founder @ Outlynk",
     "Freelance AI Specialist",
     "Full-Stack · React · TypeScript · Node",
-    "LLM Evaluation & Benchmarks",
+    "AI Evaluation · Prompting · Data",
   ],
   tagline:
     "Software developer building products people use, freelance specialist working across different domains of AI, and founder partnering with frontier AI labs.",
   bio: [
     "I'm a Software Engineer and Founder with 4+ years of experience across production fintech platforms, AI products and LLM training. I like owning things end to end: the architecture, the UI people actually touch, and the rollout that keeps it all running in production.",
     "Right now I'm an SDE at Stashfin, where I'm rebuilding the Loan Management System operator portal on React, TypeScript and a Fastify BFF, along with SAML SSO, SQL-backed RBAC and a Kafka-driven comments pipeline on AWS. Before that I built Bachatt's investment onboarding flow from scratch in under a month, including an AI assistant called Ria.",
-    "I also run Outlynk, a staff-augmentation and project-execution studio. Through it I lead AI training and evaluation projects for frontier AI labs with 300+ contributors per project. As a freelance AI specialist I author agentic coding benchmarks (Terminal-Bench, SWE-bench) for Anthropic, Snorkel, Alibaba, Mercor and others, with a 90%+ acceptance rate.",
+    "I also run Outlynk, a staff-augmentation and project-execution studio. Through it I lead AI training and evaluation projects for frontier AI labs with 300+ contributors per project. As a freelance AI specialist I work across many parts of AI (AI and LLM evaluation, prompt engineering, data annotation, coding tasks, STEM assessments and business analysis) for 6+ AI labs and data platforms, including Anthropic, Snorkel, Alibaba and Mercor.",
     "Underneath it all is a love for fundamentals: 800+ DSA problems solved, Rank 1 in the ConnectWise × GFG Engineering Intern Contest, and a habit of mentoring the people I work with.",
   ],
   avatar: "/avatar_vaibhav.jpg",
@@ -32,7 +32,7 @@ export const personalInfo = {
 export const stats: Stat[] = [
   { value: "4+", label: "Years building" },
   { value: "300+", label: "Contributors led / project" },
-  { value: "90%+", label: "Benchmark acceptance" },
+  { value: "6+", label: "AI labs & platforms" },
   { value: "800+", label: "DSA problems solved" },
 ];
 
@@ -116,13 +116,13 @@ export const experiences: Experience[] = [
     current: true,
     accent: "from-amber-500 to-orange-600",
     summary:
-      "Writing the hard problems that agentic coding models are trained and benchmarked on.",
+      "Working across evaluation, prompting, data, coding and domain-expert tasks that help frontier AI models improve.",
     achievements: [
-      "Authored high-difficulty tasks for agentic coding benchmarks, including **Terminal-Bench 2.0, 3.0 & 4.0** and **SWE-bench**, delivered in bulk with a **90%+ acceptance rate**.",
-      "Delivered AI evaluation, LLM evaluation, prompt engineering and data annotation for **6+ AI labs and data platforms** (Anthropic, Snorkel, Alibaba, Mercor, Handshake, Afterquery), plus expert STEM assessment corpora.",
+      "Delivered **AI evaluation, LLM evaluation, prompt engineering and data annotation** for **6+ AI labs and data platforms** (Anthropic, Snorkel, Alibaba, Mercor, Handshake, Afterquery).",
+      "Built expert **STEM assessment corpora** and **business-analyst tasks** for LLM training, and authored high-difficulty **agentic coding tasks** (Terminal-Bench, SWE-bench) with a **90%+ acceptance rate**.",
       "Wrote structured documentation and quality reviews for LLM refinement, upholding standardized quality practices with consistently high accuracy.",
     ],
-    tech: ["Python", "Bash", "Docker", "LLM Eval", "Prompt Engineering", "Benchmarks"],
+    tech: ["AI Evaluation", "LLM Evaluation", "Prompt Engineering", "Data Annotation", "STEM", "Business Analysis", "Python", "Coding Tasks"],
   },
   {
     id: "zingbus",
@@ -256,9 +256,9 @@ export const achievements: Achievement[] = [
     link: "https://drive.google.com/file/d/1nD6RrsYK82l-9HsdahkGSVOXYEQP0PhJ/view?usp=drive_link"
   },
   {
-    id: "benchmarks",
-    title: "90%+ Benchmark Acceptance",
-    description: "Authored high-difficulty Terminal-Bench 2.0/3.0/4.0 and SWE-bench tasks with a 90%+ acceptance rate.",
+    id: "ai-labs",
+    title: "Trusted by 6+ AI Labs",
+    description: "Freelance AI evaluation, prompt engineering, data annotation, STEM and coding work for Anthropic, Snorkel, Alibaba, Mercor and more, with consistently high accuracy.",
     date: "2022 - Present",
     type: "milestone"
   },
@@ -350,7 +350,7 @@ export const socialLinks = [
 export const technicalSkills = {
   frontend: ["React.js", "Next.js", "TypeScript", "JavaScript (ES6+)", "Zustand", "HTML5", "CSS3", "Bootstrap", "Kotlin", "Kotlin Multiplatform", "Web Performance"],
   backend: ["Node.js", "Express.js", "Fastify", "RESTful APIs", "BFF", "Microservices", "Kafka", "MongoDB", "Mongoose", "SQL", "SAML 2.0 SSO", "JWT", "RBAC"],
-  aiLlm: ["Python", "LLM Evaluation", "AI Benchmarking", "Prompt Engineering", "RAG", "Data Annotation", "Business Analysis", "Machine Learning", "NumPy", "Pandas", "OpenCV", "MediaPipe"],
+  aiLlm: ["AI Evaluation", "LLM Evaluation", "Prompt Engineering", "Data Annotation", "STEM Assessment", "Business Analysis", "AI Benchmarking", "RAG", "Python", "Machine Learning", "NumPy", "Pandas", "OpenCV", "MediaPipe"],
   cloudDevOps: ["AWS ECS", "S3", "MSK", "Secrets Manager", "IAM", "EC2", "Docker", "Linux", "Bash", "Git", "CI/CD", "Vitest", "React Testing Library"],
   coreCS: ["Data Structures & Algorithms", "OOPs", "Operating Systems", "System Design", "C", "C++", "SDLC", "Agile"],
   leadership: ["Team Leadership", "Mentorship", "Client Delivery", "Hiring", "Cross-functional Collaboration", "Technical Writing"]

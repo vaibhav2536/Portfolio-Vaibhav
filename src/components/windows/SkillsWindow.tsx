@@ -31,7 +31,7 @@ const categories: Category[] = [
   },
   {
     title: 'AI & LLM',
-    blurb: 'Evaluating, benchmarking and building with LLMs.',
+    blurb: 'Evaluation, prompting, data and building with LLMs.',
     icon: Brain,
     skills: technicalSkills.aiLlm,
     gradient: 'from-fuchsia-500 to-violet-600',
@@ -75,7 +75,7 @@ const SkillsWindow: React.FC = () => {
             The <span className="text-gradient">toolkit</span>
           </>
         }
-        subtitle={`${total} tools and practices across ${categories.length} domains, from pixel-level React to Kafka pipelines on AWS and LLM benchmarks.`}
+        subtitle={`${total} tools and practices across ${categories.length} domains, from pixel-level React to Kafka pipelines on AWS and AI evaluation.`}
       />
 
       {/* Terminal card */}
@@ -94,7 +94,7 @@ const SkillsWindow: React.FC = () => {
           <div className="text-white/60">[</div>
           <div className="pl-4 text-amber-200">"Full-stack product engineering (React · TypeScript · Node)",</div>
           <div className="pl-4 text-amber-200">"Event-driven systems & auth on AWS (Kafka · ECS · SAML · RBAC)",</div>
-          <div className="pl-4 text-amber-200">"LLM evaluation, RAG & agentic coding benchmarks"</div>
+          <div className="pl-4 text-amber-200">"AI & LLM work: evaluation, prompt engineering, data annotation, RAG"</div>
           <div className="text-white/60">]</div>
           <div>
             <span className="text-emerald-400">➜</span> <span className="text-cyan-300">~</span>{' '}

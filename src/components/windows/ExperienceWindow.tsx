@@ -27,7 +27,7 @@ const ExperienceWindow: React.FC = () => {
             Where I've <span className="text-gradient">shipped</span>
           </>
         }
-        subtitle="Fintech platforms, AI products, a founder journey and years of building benchmarks for frontier AI labs."
+        subtitle="Fintech platforms, AI products, a founder journey and years of freelance AI work with frontier labs."
         right={<FilterTabs options={filters} value={filter} onChange={setFilter} layoutId="exp-filter" />}
       />
 

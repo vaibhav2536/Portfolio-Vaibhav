@@ -98,7 +98,7 @@ const AboutWindow: React.FC = () => {
           <Reveal>
             <div className="eyebrow mb-2">About me</div>
             <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-[40px]">
-              I build software that <span className="text-gradient">ships</span>, and the benchmarks that teach AI to do the same.
+              I build software that <span className="text-gradient">ships</span>, lead teams that deliver, and help AI labs make their models better.
             </h1>
           </Reveal>
 

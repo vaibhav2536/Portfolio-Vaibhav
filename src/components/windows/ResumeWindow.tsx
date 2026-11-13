@@ -6,7 +6,7 @@ import { WindowPage, Reveal } from './ui';
 const highlights = [
   'SDE @ Stashfin: LMS portal, SAML SSO, RBAC, Kafka on AWS',
   'Founder @ Outlynk: AI training programs with 300+ contributors',
-  'Freelance AI Specialist: Terminal-Bench & SWE-bench author',
+  'Freelance AI Specialist: evaluation, prompting, data & more',
   'Built Bachatt onboarding + AI assistant Ria in under a month',
   'B.Tech CSE, IIIT Sonepat · CGPA 8.2',
 ];
