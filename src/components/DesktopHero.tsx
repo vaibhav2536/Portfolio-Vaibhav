@@ -32,7 +32,7 @@ const DesktopHero: React.FC<DesktopHeroProps> = ({ dimmed, onOpenWindow, onOpenP
     >
       <motion.div variants={container} initial="hidden" animate="show" className="flex max-w-4xl flex-col items-center">
         {/* Avatar with orbiting ring */}
-        <motion.div variants={item} className="relative mb-5 [@media(max-height:700px)]:hidden">
+        <motion.div variants={item} className="relative mb-4 sm:mb-5 [@media(max-height:700px)]:hidden">
           <div className="absolute -inset-[3px] animate-spin-slow rounded-full bg-[conic-gradient(from_0deg,#a78bfa,#f0abfc,#67e8f9,#a78bfa)] blur-[1px]" />
           <img
             src={personalInfo.avatar}
@@ -70,7 +70,7 @@ const DesktopHero: React.FC<DesktopHeroProps> = ({ dimmed, onOpenWindow, onOpenP
           {personalInfo.tagline}
         </motion.p>
 
-        <motion.div variants={item} className="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <motion.div variants={item} className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-7">
           <button type="button" className="btn-primary" onClick={() => onOpenWindow('about', 'About Me')}>
             <Sparkles className="h-4 w-4" />
             Explore my story
@@ -99,10 +99,10 @@ const DesktopHero: React.FC<DesktopHeroProps> = ({ dimmed, onOpenWindow, onOpenP
         {/* Stats */}
         <motion.div
           variants={item}
-          className="mt-8 grid w-full max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4 [@media(max-height:820px)]:hidden"
+          className="mt-6 grid w-full max-w-3xl sm:mt-8 grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4 [@media(max-height:820px)]:hidden"
         >
           {stats.map(s => (
-            <div key={s.label} className="bg-ink-950/70 px-4 py-4 backdrop-blur-xl">
+            <div key={s.label} className="bg-ink-950/70 px-4 py-3 backdrop-blur-xl sm:py-4">
               <div className="font-display text-2xl font-bold text-gradient-static sm:text-3xl">{s.value}</div>
               <div className="mt-1 text-[11px] uppercase tracking-wider text-white/45">{s.label}</div>
             </div>

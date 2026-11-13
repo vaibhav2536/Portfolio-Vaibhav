@@ -12,7 +12,7 @@ export const personalInfo = {
     "LLM Evaluation & Benchmarks",
   ],
   tagline:
-    "I build production fintech platforms, AI products and the benchmarks that train frontier models.",
+    "Software developer building products people use, freelance specialist working across different domains of AI, and founder partnering with frontier AI labs.",
   bio: [
     "I'm a Software Engineer and Founder with 4+ years of experience across production fintech platforms, AI products and LLM training. I like owning things end to end: the architecture, the UI people actually touch, and the rollout that keeps it all running in production.",
     "Right now I'm an SDE at Stashfin, where I'm rebuilding the Loan Management System operator portal on React, TypeScript and a Fastify BFF, along with SAML SSO, SQL-backed RBAC and a Kafka-driven comments pipeline on AWS. Before that I built Bachatt's investment onboarding flow from scratch in under a month, including an AI assistant called Ria.",
