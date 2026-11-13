@@ -37,7 +37,7 @@ export const stats: Stat[] = [
 ];
 
 export const currentlyDoing = [
-  { label: "Building", value: "LMS operator portal @ Stashfin" },
+  { label: "Working", value: "Software Engineer @ Stashfin" },
   { label: "Running", value: "Outlynk: AI training & staff augmentation" },
   { label: "Authoring", value: "Terminal-Bench & SWE-bench tasks" },
 ];
