@@ -1,79 +1,100 @@
-import React from "react";
-import { Award, Star, Trophy, ExternalLink } from "lucide-react";
-import { achievements } from "../../data/portfolioData";
+import React from 'react';
+import { Trophy, BadgeCheck, Star, Zap, ArrowUpRight, LucideIcon } from 'lucide-react';
+import { achievements } from '../../data/portfolioData';
+import { Achievement } from '../../types';
+import { WindowPage, PageHeader, Reveal } from './ui';
+
+const typeMeta: Record<Achievement['type'], { icon: LucideIcon; label: string; gradient: string; text: string }> = {
+  award: { icon: Trophy, label: 'Award', gradient: 'from-amber-400 to-orange-600', text: 'text-amber-200' },
+  certification: { icon: BadgeCheck, label: 'Certification', gradient: 'from-sky-400 to-blue-600', text: 'text-sky-200' },
+  milestone: { icon: Zap, label: 'Milestone', gradient: 'from-emerald-400 to-teal-600', text: 'text-emerald-200' },
+  recognition: { icon: Star, label: 'Recognition', gradient: 'from-violet-400 to-fuchsia-600', text: 'text-violet-200' },
+};
+
+const CardLink: React.FC<{ href?: string; className: string; children: React.ReactNode }> = ({ href, className, children }) =>
+  href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`${className} cursor-pointer`}>
+      {children}
+    </a>
+  ) : (
+    <div className={className}>{children}</div>
+  );
 
 const AchievementsWindow: React.FC = () => {
-  const getIcon = (type: string) => {
-    switch (type) {
-      case "award":
-        return Trophy;
-      case "certification":
-        return Award;
-      case "recognition":
-        return Star;
-      default:
-        return Star;
-    }
-  };
-
-  const getColorClasses = (type: string) => {
-    switch (type) {
-      case "award":
-        return "bg-yellow-900/20 text-yellow-400";
-      case "certification":
-        return "bg-blue-900/20 text-blue-400";
-      case "recognition":
-        return "bg-purple-900/20 text-purple-400";
-      default:
-        return "bg-gray-900/20 text-gray-400";
-    }
-  };
+  const featured = achievements.filter(a => a.featured);
+  const rest = achievements.filter(a => !a.featured);
 
   return (
-    <div className="h-full bg-gray-900 overflow-y-auto">
-      <div className="p-4 sm:p-6 lg:p-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 text-center sm:text-left">Achievements & Certifications</h1>
+    <WindowPage>
+      <PageHeader
+        eyebrow="wins.md"
+        title={
+          <>
+            Achievements & <span className="text-gradient">certifications</span>
+          </>
+        }
+        subtitle="Contests, certifications and milestones, plus some leadership from my campus days."
+      />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            {achievements.map(achievement => {
-              const Icon = getIcon(achievement.type);
-              const colorClasses = getColorClasses(achievement.type);
-
-              return (
-                <div key={achievement.id} className="bg-gray-800 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
-                  <div className="flex items-start space-x-3 sm:space-x-4">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${colorClasses} flex-shrink-0`}>
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+      {/* Featured */}
+      <div className="mb-4 grid gap-4 md:grid-cols-2">
+        {featured.map(a => {
+          const meta = typeMeta[a.type];
+          const Icon = meta.icon;
+          return (
+            <Reveal key={a.id}>
+              <CardLink href={a.link} className="glow-card group relative block h-full overflow-hidden p-6">
+                <div className={`pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gradient-to-br ${meta.gradient} opacity-20 blur-3xl transition-opacity duration-500 group-hover:opacity-40`} />
+                <Icon className="pointer-events-none absolute -bottom-6 -right-4 h-36 w-36 text-white/[0.04] transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110" />
+                <div className="relative">
+                  <div className="mb-5 flex items-center justify-between">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${meta.gradient} shadow-lg`}>
+                      <Icon className="h-6 w-6 text-white" />
                     </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between mb-2 flex-col sm:flex-row gap-2">
-                        <h2 className="text-base sm:text-lg font-semibold text-white">{achievement.title}</h2>
-                        <span className="text-xs sm:text-sm font-medium text-gray-400 flex-shrink-0">{achievement.date}</span>
-                      </div>
-
-                      <p className="text-gray-400 mb-3 text-sm sm:text-base">{achievement.description}</p>
-
-                      <div className="flex items-center justify-between flex-col sm:flex-row gap-2">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${colorClasses} order-2 sm:order-1`}>{achievement.type.charAt(0).toUpperCase() + achievement.type.slice(1)}</span>
-
-                        {achievement.link && (
-                          <a href={achievement.link} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-1 text-blue-400 hover:text-blue-300 text-xs sm:text-sm font-medium order-1 sm:order-2">
-                            <span>View</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
+                    <span className="font-mono text-xs text-white/40">{a.date}</span>
                   </div>
+                  <div className={`mb-1 font-mono text-[10px] uppercase tracking-[0.2em] ${meta.text}`}>Featured · {meta.label}</div>
+                  <h2 className="font-display text-2xl font-bold text-white">{a.title}</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{a.description}</p>
+                  {a.link && (
+                    <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-violet-200">
+                      View proof <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </span>
+                  )}
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              </CardLink>
+            </Reveal>
+          );
+        })}
       </div>
-    </div>
+
+      {/* The rest */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {rest.map(a => {
+          const meta = typeMeta[a.type];
+          const Icon = meta.icon;
+          return (
+            <Reveal key={a.id}>
+              <CardLink href={a.link} className="glow-card group flex h-full flex-col p-5">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br ${meta.gradient}`}>
+                    <Icon className="h-4 w-4 text-white" />
+                  </div>
+                  {a.link ? (
+                    <ArrowUpRight className="h-4 w-4 text-white/30 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                  ) : (
+                    <span className={`font-mono text-[10px] uppercase tracking-wider ${meta.text} opacity-70`}>{meta.label}</span>
+                  )}
+                </div>
+                <h3 className="font-semibold leading-snug text-white">{a.title}</h3>
+                <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-white/55">{a.description}</p>
+                <div className="mt-3 font-mono text-[11px] text-white/35">{a.date}</div>
+              </CardLink>
+            </Reveal>
+          );
+        })}
+      </div>
+    </WindowPage>
   );
 };
 

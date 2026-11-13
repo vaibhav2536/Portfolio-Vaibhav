@@ -1,213 +1,110 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  User, 
-  Briefcase, 
-  FolderOpen, 
-  Award, 
-  FileText, 
-  ExternalLink,
-  Code2
-} from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, MotionValue, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Command } from 'lucide-react';
+import { apps, AppDef } from '../config/apps';
 
 interface DockProps {
   onOpenWindow: (id: string, title: string) => void;
-  minimizedWindows?: string[];
+  openWindows: string[];
+  onOpenPalette: () => void;
 }
 
-const dockItems = [
-  { id: 'about', label: 'About', icon: User, title: 'About Me' },
-  { id: 'skills', label: 'Skills', icon: Code2, title: 'Technical Skills' },
-  { id: 'experience', label: 'Experience', icon: Briefcase, title: 'Work Experience' },
-  { id: 'projects', label: 'Projects', icon: FolderOpen, title: 'My Projects' },
-  { id: 'achievements', label: 'Achievements', icon: Award, title: 'Achievements' },
-  { id: 'resume', label: 'Resume', icon: FileText, title: 'Resume' },
-  { id: 'links', label: 'Links', icon: ExternalLink, title: 'Social Links' }
-];
+const BASE = 50;
+const MAX = 82;
 
-const Dock: React.FC<DockProps> = ({ onOpenWindow, minimizedWindows = [] }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+const DockIcon: React.FC<{
+  mouseX: MotionValue<number>;
+  label: string;
+  isOpen?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  className: string;
+}> = ({ mouseX, label, isOpen, onClick, children, className }) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [hovered, setHovered] = useState(false);
 
-  const bounceVariants = {
-    initial: { scale: 1, y: 0, rotateY: 0 },
-    hover: { 
-      scale: 1.3, 
-      y: -12,
-      rotateY: 5,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10,
-        mass: 0.6
-      }
-    },
-    tap: { 
-      scale: 0.9,
-      y: 4,
-      transition: {
-        type: "spring",
-        stiffness: 600,
-        damping: 15
-      }
-    }
-  };
-
-  const iconVariants = {
-    initial: { rotate: 0, scale: 1 },
-    hover: { 
-      rotate: [0, -8, 8, -8, 0],
-      scale: 1.1,
-      transition: {
-        duration: 0.6,
-        ease: "easeInOut"
-      }
-    }
-  };
+  const distance = useTransform(mouseX, val => {
+    const b = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return val - b.x - b.width / 2;
+  });
+  const base = globalThis.innerWidth < 640 ? 42 : BASE;
+  const sizeSync = useTransform(distance, [-160, 0, 160], [base, MAX, base]);
+  const size = useSpring(sizeSync, { mass: 0.1, stiffness: 170, damping: 14 });
 
   return (
-    <div className="fixed bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-2 sm:px-0">
-      <motion.div 
-        className="backdrop-blur-2xl rounded-2xl sm:rounded-3xl px-2 sm:px-4 py-2 sm:py-3 shadow-2xl border overflow-x-auto"
-        style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderColor: 'rgba(255, 255, 255, 0.2)',
-          boxShadow: `
-            0 25px 50px -12px rgba(0, 0, 0, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2)
-          `,
-        }}
-        initial={{ y: 100, opacity: 0, scale: 0.8 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ 
-          type: "spring", 
-          stiffness: 200, 
-          damping: 20,
-          delay: 0.3 
-        }}
+    <div className="relative flex flex-col items-center">
+      <motion.span
+        className="pointer-events-none absolute -top-11 whitespace-nowrap rounded-lg border border-white/10 bg-ink-900/90 px-2.5 py-1 text-xs font-medium text-white shadow-xl backdrop-blur-xl"
+        initial={false}
+        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }}
+        transition={{ duration: 0.15 }}
       >
-        {/* Dock Reflection */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/5 via-transparent to-white/10 rounded-2xl sm:rounded-3xl pointer-events-none" />
-        
-        <div className="flex items-center space-x-1 sm:space-x-3 relative min-w-max">
-          {dockItems.map((item, index) => {
-            const Icon = item.icon;
-            const isHovered = hoveredItem === item.id;
-            const isMinimized = minimizedWindows.includes(item.id);
-            
-            return (
-              <div key={item.id} className="relative">
-                {/* Enhanced Tooltip */}
-                <motion.div
-                  className="absolute -top-12 sm:-top-16 left-1/2 transform -translate-x-1/2 backdrop-blur-xl text-white text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 rounded-lg sm:rounded-xl whitespace-nowrap pointer-events-none border z-50"
-                  style={{
-                    background: 'rgba(0, 0, 0, 0.8)',
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                  }}
-                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                  animate={{ 
-                    opacity: isHovered ? 1 : 0, 
-                    y: isHovered ? 0 : 10,
-                    scale: isHovered ? 1 : 0.8
-                  }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 20 
-                  }}
-                >
-                  {item.label}
-                  {/* Tooltip Arrow */}
-                  <div 
-                    className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 rotate-45"
-                    style={{ background: 'rgba(0, 0, 0, 0.8)' }}
-                  />
-                </motion.div>
+        {label}
+      </motion.span>
+      <motion.button
+        ref={ref}
+        type="button"
+        aria-label={label}
+        onClick={onClick}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ width: size, height: size }}
+        whileTap={{ scale: 0.85 }}
+        className={`group relative flex items-center justify-center overflow-hidden rounded-[28%] shadow-lg ${className}`}
+      >
+        <span className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-black/20" />
+        <span className="absolute inset-x-2 top-1 h-1/3 rounded-full bg-white/25 blur-md" />
+        <span className="relative">{children}</span>
+      </motion.button>
+      <span
+        className={`mt-1 h-1 w-1 rounded-full bg-white transition-opacity duration-300 ${isOpen ? 'opacity-90' : 'opacity-0'}`}
+        style={{ boxShadow: '0 0 6px rgba(255,255,255,0.9)' }}
+      />
+    </div>
+  );
+};
 
-                {/* Enhanced Dock Item */}
-                <motion.button
-                  variants={bounceVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  whileTap="tap"
-                  onClick={() => onOpenWindow(item.id, item.title)}
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  className="relative w-12 h-12 sm:w-16 sm:h-16 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-lg border flex items-center justify-center overflow-hidden group"
-                  style={{
-                    transformOrigin: 'bottom center',
-                    background: 'rgba(255, 255, 255, 0.15)',
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    boxShadow: `
-                      0 8px 32px rgba(0, 0, 0, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    `,
-                  }}
-                >
-                  {/* Enhanced Hover Glow Effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl sm:rounded-2xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3))',
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  {/* Icon with enhanced animation */}
-                  <motion.div
-                    variants={iconVariants}
-                    initial="initial"
-                    animate={isHovered ? "hover" : "initial"}
-                    className="relative z-10"
-                  >
-                    <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-white/90 drop-shadow-lg" />
-                  </motion.div>
+const Dock: React.FC<DockProps> = ({ onOpenWindow, openWindows, onOpenPalette }) => {
+  const mouseX = useMotionValue(Infinity);
 
-                  {/* Enhanced Minimized Indicator */}
-                  {isMinimized && (
-                    <motion.div 
-                      className="absolute -bottom-0.5 sm:-bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
-                      style={{
-                        background: 'linear-gradient(45deg, #3b82f6, #8b5cf6)',
-                        boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
-                      }}
-                      animate={{ 
-                        scale: [1, 1.3, 1],
-                        opacity: [0.8, 1, 0.8]
-                      }}
-                      transition={{ 
-                        duration: 2, 
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  )}
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-2 flex justify-center px-2 sm:bottom-4" style={{ zIndex: 5000 }}>
+      <motion.nav
+        aria-label="Dock"
+        onMouseMove={e => globalThis.innerWidth >= 640 && mouseX.set(e.clientX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        initial={{ y: 120, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 180, damping: 20, delay: 0.6 }}
+        className="pointer-events-auto flex max-w-full items-end gap-2 overflow-x-auto rounded-[22px] border border-white/10 bg-white/[0.06] px-3 pb-1.5 pt-2.5 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-2xl sm:gap-3 sm:overflow-visible"
+        style={{ boxShadow: '0 20px 60px -15px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12)' }}
+      >
+        {apps.map((app: AppDef) => {
+          const Icon = app.icon;
+          return (
+            <DockIcon
+              key={app.id}
+              mouseX={mouseX}
+              label={app.label}
+              isOpen={openWindows.includes(app.id)}
+              onClick={() => onOpenWindow(app.id, app.title)}
+              className={`bg-gradient-to-br ${app.gradient}`}
+            >
+              <Icon className="h-[22px] w-[22px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.35)] sm:h-6 sm:w-6" />
+            </DockIcon>
+          );
+        })}
 
-                  {/* Enhanced Reflection Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent rounded-xl sm:rounded-2xl pointer-events-none" />
-                  
-                  {/* Shine Animation */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl sm:rounded-2xl"
-                    animate={{
-                      x: ['-100%', '100%'],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatDelay: 4,
-                      ease: "easeInOut",
-                    }}
-                  />
-                </motion.button>
-              </div>
-            );
-          })}
-        </div>
-      </motion.div>
+        {/* On phones the menu-bar search button opens the palette instead */}
+        {globalThis.innerWidth >= 640 && (
+          <>
+            <div className="mx-0.5 mb-3 h-10 w-px self-center bg-white/15" />
+            <DockIcon mouseX={mouseX} label="Command Palette (⌘K)" onClick={onOpenPalette} className="bg-ink-800 ring-1 ring-white/15">
+              <Command className="h-6 w-6 text-violet-200" />
+            </DockIcon>
+          </>
+        )}
+      </motion.nav>
     </div>
   );
 };

@@ -1,57 +1,81 @@
 import React from 'react';
-import { Download, Eye, FileText, ExternalLink } from 'lucide-react';
+import { Download, ExternalLink, FileText, CheckCircle2 } from 'lucide-react';
+import { resume, experiences, stats } from '../../data/portfolioData';
+import { WindowPage, Reveal } from './ui';
+
+const highlights = [
+  'SDE @ Stashfin: LMS portal, SAML SSO, RBAC, Kafka on AWS',
+  'Founder @ Outlynk: AI training programs with 300+ contributors',
+  'Freelance AI Specialist: Terminal-Bench & SWE-bench author',
+  'Built Bachatt onboarding + AI assistant Ria in under a month',
+  'B.Tech CSE, IIIT Sonepat · CGPA 8.2',
+];
 
 const ResumeWindow: React.FC = () => {
-  const resumeViewUrl = "https://drive.google.com/file/d/1G769gUzELA8ktQFp3E2sD69PiUnVtszm/view?usp=sharing";
-  const resumeDownloadUrl = "https://drive.google.com/uc?export=download&id=1G769gUzELA8ktQFp3E2sD69PiUnVtszm";
-
-  const handleView = () => {
-    window.open(resumeViewUrl, '_blank');
-  };
-  
-  const handleDownload = () => {
-    window.open(resumeDownloadUrl, '_blank');
-  };
-
   return (
-    <div className="h-full bg-gray-900 overflow-y-auto">
-      <div className="p-4 sm:p-6 lg:p-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="mb-6 sm:mb-8">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-              <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-blue-400" />
+    <WindowPage className="!max-w-6xl">
+      <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
+        {/* Summary */}
+        <div className="space-y-5">
+          <Reveal>
+            <div className="relative mb-5 inline-flex">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-400 via-fuchsia-500 to-violet-600 opacity-60 blur-xl" />
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-400 via-fuchsia-500 to-violet-600 shadow-xl">
+                <FileText className="h-8 w-8 text-white" />
+              </div>
             </div>
-            
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
-              Resume
+            <div className="eyebrow mb-2">resume.pdf</div>
+            <h1 className="font-display text-3xl font-bold tracking-tight text-white">
+              The <span className="text-gradient">one-pager</span>
             </h1>
-            
-            <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base px-4">
-              View or download my complete resume with detailed information about my experience, skills, and achievements.
+            <p className="mt-2 text-sm leading-relaxed text-white/55">
+              {experiences.length} roles, {stats[0].value} years and the details recruiters ask for, on a single page. Updated {resume.updated}.
             </p>
-          </div>
-          
-          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 px-4">
-            <button
-              onClick={handleView}
-              className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg font-medium transition-colors duration-200 text-sm sm:text-base"
-            >
-              <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>View Resume</span>
-              <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-            </button>
-            
-            <button
-              onClick={handleDownload}
-              className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg font-medium transition-colors duration-200 text-sm sm:text-base"
-            >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Download PDF</span>
-            </button>
-          </div>
+          </Reveal>
+
+          <Reveal className="flex flex-col gap-2.5">
+            <a href={resume.file} download={resume.downloadName} className="btn-primary w-full">
+              <Download className="h-4 w-4" />
+              Download PDF
+            </a>
+            <a href={resume.file} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full">
+              <ExternalLink className="h-4 w-4" />
+              Open in new tab
+            </a>
+          </Reveal>
+
+          <Reveal className="glass-card p-5">
+            <div className="eyebrow mb-3">TL;DR</div>
+            <ul className="space-y-2.5">
+              {highlights.map(h => (
+                <li key={h} className="flex gap-2.5 text-[13px] leading-snug text-white/70">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-300" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
+
+        {/* Preview */}
+        <Reveal className="hidden md:block">
+          <div className="glass-card overflow-hidden p-2">
+            <div className="flex items-center justify-between px-3 pb-2 pt-1">
+              <span className="font-mono text-[11px] text-white/40">Preview · Vaibhav_Dinkar_Resume.pdf</span>
+              <span className="flex gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-white/15" />
+                <span className="h-2 w-2 rounded-full bg-white/15" />
+              </span>
+            </div>
+            <iframe
+              src={`${resume.file}#view=FitH&toolbar=0&navpanes=0`}
+              title="Resume preview"
+              className="h-[640px] w-full rounded-xl bg-white"
+            />
+          </div>
+        </Reveal>
       </div>
-    </div>
+    </WindowPage>
   );
 };
 

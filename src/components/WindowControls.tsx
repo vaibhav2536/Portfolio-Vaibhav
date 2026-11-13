@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { X, Minus, Square } from 'lucide-react';
+import { X, Minus, Maximize2, Minimize2 } from 'lucide-react';
 
 interface WindowControlsProps {
   onClose: () => void;
@@ -9,110 +8,34 @@ interface WindowControlsProps {
   isFullscreen: boolean;
 }
 
-const WindowControls: React.FC<WindowControlsProps> = ({ 
-  onClose, 
-  onMinimize, 
-  onToggleFullscreen,
-  isFullscreen 
-}) => {
-  const buttonVariants = {
-    initial: { scale: 1 },
-    hover: { 
-      scale: 1.15,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    },
-    tap: { 
-      scale: 0.9,
-      transition: {
-        type: "spring",
-        stiffness: 600,
-        damping: 15
-      }
-    }
-  };
-
-  const iconVariants = {
-    initial: { opacity: 0, scale: 0.8 },
-    hover: { 
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.15 }
-    }
-  };
-
+const WindowControls: React.FC<WindowControlsProps> = ({ onClose, onMinimize, onToggleFullscreen, isFullscreen }) => {
   const controls = [
-    {
-      onClick: onClose,
-      className: "bg-red-500 hover:bg-red-600",
-      icon: X,
-      shadowColor: "rgba(239, 68, 68, 0.4)"
-    },
-    {
-      onClick: onMinimize,
-      className: "bg-yellow-500 hover:bg-yellow-600",
-      icon: Minus,
-      shadowColor: "rgba(245, 158, 11, 0.4)"
-    },
+    { onClick: onClose, label: 'Close window', color: 'bg-[#ff5f57]', glow: 'rgba(255,95,87,0.6)', icon: X },
+    { onClick: onMinimize, label: 'Minimize window', color: 'bg-[#febc2e]', glow: 'rgba(254,188,46,0.6)', icon: Minus },
     {
       onClick: onToggleFullscreen,
-      className: "bg-green-500 hover:bg-green-600",
-      icon: Square,
-      shadowColor: "rgba(34, 197, 94, 0.4)"
-    }
+      label: isFullscreen ? 'Exit full screen' : 'Enter full screen',
+      color: 'bg-[#28c840]',
+      glow: 'rgba(40,200,64,0.6)',
+      icon: isFullscreen ? Minimize2 : Maximize2,
+    },
   ];
 
   return (
-    <div className="flex items-center space-x-1.5 sm:space-x-2">
-      {controls.map((control, index) => {
-        const Icon = control.icon;
-        
-        return (
-          <motion.button
-            key={index}
-            variants={buttonVariants}
-            initial="initial"
-            whileHover="hover"
-            whileTap="tap"
-            onClick={control.onClick}
-            className={`w-3 h-3 sm:w-4 sm:h-4 ${control.className} rounded-full transition-colors duration-150 group flex items-center justify-center relative overflow-hidden`}
-            style={{
-              boxShadow: `0 2px 8px ${control.shadowColor}, inset 0 1px 0 rgba(255, 255, 255, 0.3)`,
-            }}
-          >
-            {/* Button Shine */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent rounded-full" />
-            
-            {/* Icon */}
-            <motion.div
-              variants={iconVariants}
-              initial="initial"
-              whileHover="hover"
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <Icon className={`w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 ${
-                index === 0 ? 'text-red-900' : 
-                index === 1 ? 'text-yellow-900' : 
-                'text-green-900'
-              } drop-shadow-sm`} />
-            </motion.div>
-            
-            {/* Hover Glow */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{ 
-                background: `radial-gradient(circle, ${control.shadowColor} 0%, transparent 70%)`,
-              }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileHover={{ opacity: 1, scale: 1.2 }}
-              transition={{ duration: 0.2 }}
-            />
-          </motion.button>
-        );
-      })}
+    <div className="group relative z-10 flex items-center gap-2">
+      {controls.map(({ onClick, label, color, glow, icon: Icon }) => (
+        <button
+          key={label}
+          type="button"
+          aria-label={label}
+          title={label}
+          onClick={onClick}
+          className={`flex h-3.5 w-3.5 items-center justify-center rounded-full ${color} transition-transform duration-150 hover:scale-110 active:scale-90`}
+          style={{ boxShadow: `0 0 10px -2px ${glow}, inset 0 1px 0 rgba(255,255,255,0.35)` }}
+        >
+          <Icon className="h-2 w-2 text-black/60 opacity-0 transition-opacity group-hover:opacity-100" strokeWidth={3} />
+        </button>
+      ))}
     </div>
   );
 };

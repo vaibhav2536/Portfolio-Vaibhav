@@ -1,114 +1,139 @@
 import React from 'react';
-import { Code, Database, Cloud, Cpu, Users, Lightbulb, Brain } from 'lucide-react';
+import { Code2, Server, Cloud, Cpu, Users, Brain, LucideIcon } from 'lucide-react';
 import { technicalSkills } from '../../data/portfolioData';
+import { WindowPage, PageHeader, Reveal } from './ui';
+
+interface Category {
+  title: string;
+  blurb: string;
+  icon: LucideIcon;
+  skills: string[];
+  gradient: string;
+  dot: string;
+}
+
+const categories: Category[] = [
+  {
+    title: 'Frontend',
+    blurb: 'Interfaces that feel fast: web, WebView and native.',
+    icon: Code2,
+    skills: technicalSkills.frontend,
+    gradient: 'from-sky-500 to-blue-600',
+    dot: 'bg-sky-400',
+  },
+  {
+    title: 'Backend',
+    blurb: 'BFFs, event pipelines, auth and permissions.',
+    icon: Server,
+    skills: technicalSkills.backend,
+    gradient: 'from-emerald-500 to-teal-600',
+    dot: 'bg-emerald-400',
+  },
+  {
+    title: 'AI & LLM',
+    blurb: 'Evaluating, benchmarking and building with LLMs.',
+    icon: Brain,
+    skills: technicalSkills.aiLlm,
+    gradient: 'from-fuchsia-500 to-violet-600',
+    dot: 'bg-fuchsia-400',
+  },
+  {
+    title: 'Cloud, DevOps & Testing',
+    blurb: 'Shipping to AWS with confidence and coverage.',
+    icon: Cloud,
+    skills: technicalSkills.cloudDevOps,
+    gradient: 'from-amber-500 to-orange-600',
+    dot: 'bg-amber-400',
+  },
+  {
+    title: 'Core CS',
+    blurb: 'The fundamentals underneath everything.',
+    icon: Cpu,
+    skills: technicalSkills.coreCS,
+    gradient: 'from-rose-500 to-pink-600',
+    dot: 'bg-rose-400',
+  },
+  {
+    title: 'Leadership',
+    blurb: 'Running teams of 300+ contributors and client delivery.',
+    icon: Users,
+    skills: technicalSkills.leadership,
+    gradient: 'from-indigo-500 to-purple-600',
+    dot: 'bg-indigo-400',
+  },
+];
 
 const SkillsWindow: React.FC = () => {
-  const skillCategories = [
-    {
-      title: "Frontend Development",
-      icon: Code,
-      skills: technicalSkills.frontend,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-900/10",
-      borderColor: "border-blue-800"
-    },
-    {
-      title: "Backend Development",
-      icon: Database,
-      skills: technicalSkills.backend,
-      color: "from-green-500 to-green-600",
-      bgColor: "bg-green-900/10",
-      borderColor: "border-green-800"
-    },
-    {
-      title: "Data Science & ML",
-      icon: Brain,
-      skills: technicalSkills.dataScience,
-      color: "from-indigo-500 to-indigo-600",
-      bgColor: "bg-indigo-900/10",
-      borderColor: "border-indigo-800"
-    },
-    {
-      title: "Cloud & DevOps",
-      icon: Cloud,
-      skills: technicalSkills.cloudDevOps,
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-900/10",
-      borderColor: "border-purple-800"
-    },
-    {
-      title: "Core Computer Science",
-      icon: Cpu,
-      skills: technicalSkills.coreCS,
-      color: "from-orange-500 to-orange-600",
-      bgColor: "bg-orange-900/10",
-      borderColor: "border-orange-800"
-    },
-    {
-      title: "Soft Skills",
-      icon: Users,
-      skills: technicalSkills.softSkills,
-      color: "from-pink-500 to-pink-600",
-      bgColor: "bg-pink-900/10",
-      borderColor: "border-pink-800"
-    }
-  ];
+  const total = categories.reduce((n, c) => n + c.skills.length, 0);
 
   return (
-    <div className="h-full bg-gray-900 overflow-y-auto">
-      <div className="p-4 sm:p-6 lg:p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <div className="flex items-center justify-center mb-4 sm:mb-6 flex-col sm:flex-row">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-3 sm:mb-0 sm:mr-4">
-                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-                Technical Skills
-              </h1>
-            </div>
-            <p className="text-gray-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto px-4">
-              A comprehensive overview of my technical expertise across different domains
-            </p>
+    <WindowPage>
+      <PageHeader
+        eyebrow="skills.json"
+        title={
+          <>
+            The <span className="text-gradient">toolkit</span>
+          </>
+        }
+        subtitle={`${total} tools and practices across ${categories.length} domains, from pixel-level React to Kafka pipelines on AWS and LLM benchmarks.`}
+      />
+
+      {/* Terminal card */}
+      <Reveal className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-black/50 font-mono text-[12.5px] shadow-inner">
+        <div className="flex items-center gap-1.5 border-b border-white/[0.06] px-4 py-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+          <span className="ml-2 text-[11px] text-white/30">zsh · ~/vaibhav</span>
+        </div>
+        <div className="space-y-1 px-4 py-3 leading-6">
+          <div>
+            <span className="text-emerald-400">➜</span> <span className="text-cyan-300">~</span>{' '}
+            <span className="text-white/85">cat skills.json | jq '.focus'</span>
           </div>
-          
-          <div className="space-y-6 sm:space-y-8">
-            {skillCategories.map((category, index) => {
-              const Icon = category.icon;
-              
-              return (
-                <div
-                  key={index}
-                  className={`${category.bgColor} ${category.borderColor} border-2 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
-                >
-                  <div className="flex items-center mb-4 sm:mb-6">
-                    <div className={`w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-r ${category.color} rounded-lg sm:rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-lg flex-shrink-0`}>
-                      <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
-                    </div>
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
-                      {category.title}
-                    </h2>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
-                    {category.skills.map((skill, skillIndex) => (
-                      <div
-                        key={skillIndex}
-                        className="bg-gray-800 px-2 sm:px-3 lg:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border border-gray-700 hover:shadow-md transition-all duration-200 hover:border-gray-600 text-center"
-                      >
-                        <span className="text-gray-200 font-medium text-xs sm:text-sm lg:text-base block truncate">
-                          {skill}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+          <div className="text-white/60">[</div>
+          <div className="pl-4 text-amber-200">"Full-stack product engineering (React · TypeScript · Node)",</div>
+          <div className="pl-4 text-amber-200">"Event-driven systems & auth on AWS (Kafka · ECS · SAML · RBAC)",</div>
+          <div className="pl-4 text-amber-200">"LLM evaluation, RAG & agentic coding benchmarks"</div>
+          <div className="text-white/60">]</div>
+          <div>
+            <span className="text-emerald-400">➜</span> <span className="text-cyan-300">~</span>{' '}
+            <span className="inline-block h-4 w-2 translate-y-[3px] animate-blink bg-white/70" />
           </div>
         </div>
+      </Reveal>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {categories.map(cat => {
+          const Icon = cat.icon;
+          return (
+            <Reveal key={cat.title} className="glow-card group overflow-hidden p-5">
+              <div
+                className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${cat.gradient} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-30`}
+              />
+              <div className="mb-4 flex items-center gap-3">
+                <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${cat.gradient} shadow-lg`}>
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className="font-display text-lg font-semibold text-white">{cat.title}</h2>
+                  <p className="truncate text-xs text-white/45">{cat.blurb}</p>
+                </div>
+                <span className="ml-auto font-mono text-xs text-white/30">{String(cat.skills.length).padStart(2, '0')}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {cat.skills.map(skill => (
+                  <span key={skill} className="chip">
+                    <span className={`h-1.5 w-1.5 rounded-full ${cat.dot}`} />
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+          );
+        })}
       </div>
-    </div>
+    </WindowPage>
   );
 };
 

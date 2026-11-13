@@ -1,72 +1,160 @@
-import React from 'react';
-import { MapPin, Mail, Phone, GraduationCap } from 'lucide-react';
-import { personalInfo, education } from '../../data/portfolioData';
+import React, { useState } from 'react';
+import { MapPin, Mail, AtSign, Phone, GraduationCap, Globe, Check, Copy, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { personalInfo, education, stats, currentlyDoing } from '../../data/portfolioData';
+import { WindowPage, Reveal } from './ui';
 
 const AboutWindow: React.FC = () => {
-  return (
-    <div className="h-full bg-gray-900 overflow-y-auto">
-      <div className="p-4 sm:p-6 lg:p-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-6 sm:mb-8">
-            <img
-              src={personalInfo.avatar}
-              alt={personalInfo.name}
-              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 shadow-lg border-4 border-gray-700 object-cover"
-            />
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              {personalInfo.name}
-            </h1>
-            <p className="text-lg sm:text-xl text-blue-400 mb-4">
-              {personalInfo.title}
-            </p>
-            <div className="flex items-center justify-center space-x-3 sm:space-x-6 text-gray-400 mb-4 sm:mb-6 flex-wrap gap-y-2">
-              <div className="flex items-center space-x-2 text-sm sm:text-base">
-                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="truncate">{personalInfo.location}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm sm:text-base">
-                <Mail className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="truncate">{personalInfo.email}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm sm:text-base">
-                <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="truncate">{personalInfo.phone}</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-gray-800 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4">
-              About Me
-            </h2>
-            <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-              {personalInfo.bio}
-            </p>
-          </div>
+  const [copied, setCopied] = useState<string | null>(null);
 
-          <div className="bg-blue-900/20 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-            <div className="flex items-center mb-3 sm:mb-4">
-              <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 mr-2 sm:mr-3 flex-shrink-0" />
-              <h2 className="text-xl sm:text-2xl font-semibold text-white">
-                Education
-              </h2>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-base sm:text-lg font-medium text-white">
-                {education.degree}
-              </h3>
-              <p className="text-blue-400 font-medium text-sm sm:text-base">
-                {education.institution}
-              </p>
-              <div className="flex items-center justify-between text-gray-400 text-sm sm:text-base flex-wrap gap-2">
-                <span>{education.duration}</span>
-                <span className="font-semibold">CGPA: {education.cgpa}</span>
+  const copyEmail = async (email: string) => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(email);
+      setTimeout(() => setCopied(null), 1600);
+    } catch {
+      window.location.href = `mailto:${email}`;
+    }
+  };
+
+  const contacts = [
+    { icon: MapPin, label: personalInfo.location },
+    { icon: Phone, label: personalInfo.phone, href: `tel:${personalInfo.phone.replace(/-/g, '')}` },
+    { icon: Globe, label: 'outlynk.in', href: personalInfo.website },
+  ];
+
+  return (
+    <WindowPage>
+      <div className="grid gap-6 md:grid-cols-[300px_1fr]">
+        {/* Left: portrait card */}
+        <Reveal className="md:sticky md:top-0 md:self-start">
+          <div className="glass-card overflow-hidden p-2">
+            <div className="group relative aspect-[3/4] overflow-hidden rounded-xl">
+              <motion.img
+                src={personalInfo.photo}
+                alt={personalInfo.name}
+                className="h-full w-full object-cover"
+                initial={{ scale: 1.15 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-cyan-400/15 mix-blend-overlay" />
+              <div className="absolute inset-x-0 bottom-0 p-4">
+                <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/15 px-2 py-0.5 text-[10px] font-medium text-emerald-200 backdrop-blur-md">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                  {personalInfo.availability}
+                </div>
+                <h2 className="font-display text-2xl font-bold leading-tight text-white">{personalInfo.name}</h2>
+                <p className="text-sm text-white/70">{personalInfo.title}</p>
               </div>
             </div>
+
+            <div className="space-y-1 p-3">
+              {[
+                { email: personalInfo.email, icon: Mail, title: 'Personal email: click to copy' },
+                { email: personalInfo.workEmail, icon: AtSign, title: 'Work email (Outlynk): click to copy' },
+              ].map(({ email, icon: Icon, title }) => (
+                <button
+                  key={email}
+                  type="button"
+                  title={title}
+                  onClick={() => copyEmail(email)}
+                  className="group flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm text-white/75 transition-colors hover:bg-white/[0.06] hover:text-white"
+                >
+                  <Icon className="h-4 w-4 flex-shrink-0 text-violet-300" />
+                  <span className="min-w-0 flex-1 truncate">{email}</span>
+                  {copied === email ? (
+                    <Check className="h-3.5 w-3.5 flex-shrink-0 text-emerald-300" />
+                  ) : (
+                    <Copy className="h-3.5 w-3.5 flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-60" />
+                  )}
+                </button>
+              ))}
+              {contacts.map(({ icon: Icon, label, href }) => {
+                const inner = (
+                  <>
+                    <Icon className="h-4 w-4 flex-shrink-0 text-violet-300" />
+                    <span className="truncate">{label}</span>
+                  </>
+                );
+                const cls = 'flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/75 transition-colors hover:bg-white/[0.06] hover:text-white';
+                return href ? (
+                  <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className={cls}>
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={label} className={cls}>
+                    {inner}
+                  </div>
+                );
+              })}
+            </div>
           </div>
+        </Reveal>
+
+        {/* Right: story */}
+        <div className="min-w-0 space-y-6">
+          <Reveal>
+            <div className="eyebrow mb-2">About me</div>
+            <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-[40px]">
+              I build software that <span className="text-gradient">ships</span>, and the benchmarks that teach AI to do the same.
+            </h1>
+          </Reveal>
+
+          <Reveal className="flex flex-wrap gap-2">
+            {personalInfo.roles.slice(0, 3).map(r => (
+              <span key={r} className="chip">
+                <Sparkles className="h-3 w-3 text-fuchsia-300" />
+                {r}
+              </span>
+            ))}
+          </Reveal>
+
+          <Reveal className="space-y-4 text-[15px] leading-relaxed text-white/65">
+            {personalInfo.bio.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </Reveal>
+
+          <Reveal className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {stats.map(s => (
+              <div key={s.label} className="glow-card p-4">
+                <div className="font-display text-3xl font-bold text-gradient-static">{s.value}</div>
+                <div className="mt-1 text-[11px] uppercase leading-snug tracking-wider text-white/45">{s.label}</div>
+              </div>
+            ))}
+          </Reveal>
+
+          <Reveal className="glass-card p-5">
+            <div className="eyebrow mb-4 !text-emerald-300/80">Currently</div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {currentlyDoing.map(c => (
+                <div key={c.label} className="border-l-2 border-violet-400/40 pl-3">
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-white/35">{c.label}</div>
+                  <div className="mt-0.5 text-sm text-white/85">{c.value}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal className="glow-card flex items-start gap-4 p-5">
+            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-violet-600 shadow-lg">
+              <GraduationCap className="h-5 w-5 text-white" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow mb-1">Education</div>
+              <h3 className="font-semibold text-white">{education.degree}</h3>
+              <p className="text-sm text-white/60">{education.institution}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <span className="chip">{education.duration}</span>
+                <span className="chip">CGPA {education.cgpa}</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
-    </div>
+    </WindowPage>
   );
 };
 

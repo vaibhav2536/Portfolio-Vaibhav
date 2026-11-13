@@ -1,262 +1,166 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { WindowState } from '../types';
 import WindowControls from './WindowControls';
+import { getApp } from '../config/apps';
+import { MENU_BAR_HEIGHT } from '../hooks/useWindowManager';
 
 interface WindowProps {
   window: WindowState;
+  isFocused: boolean;
   onClose: () => void;
   onMinimize: () => void;
   onToggleFullscreen: () => void;
   onBringToFront: () => void;
   onUpdatePosition: (position: { x: number; y: number }) => void;
-  onUpdateSize: (size: { width: number; height: number }) => void;
   children: React.ReactNode;
 }
 
 const Window: React.FC<WindowProps> = ({
-  window,
+  window: win,
+  isFocused,
   onClose,
   onMinimize,
   onToggleFullscreen,
   onBringToFront,
   onUpdatePosition,
-  onUpdateSize,
-  children
+  children,
 }) => {
-  const windowRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const app = getApp(win.id);
+  const Icon = app?.icon;
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget || (e.target as HTMLElement).classList.contains('window-header')) {
-      setIsDragging(true);
-      setDragOffset({
-        x: e.clientX - window.position.x,
-        y: e.clientY - window.position.y
-      });
-      onBringToFront();
-    }
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest('button')) return;
+    if (win.isFullscreen || globalThis.innerWidth < 640) return;
+    e.preventDefault();
+    dragOffset.current = { x: e.clientX - win.position.x, y: e.clientY - win.position.y };
+    setIsDragging(true);
+    onBringToFront();
   };
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging && !window.isFullscreen) {
-        onUpdatePosition({
-          x: e.clientX - dragOffset.x,
-          y: e.clientY - dragOffset.y
-        });
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-    }
-
+    if (!isDragging) return;
+    const onMove = (e: PointerEvent) =>
+      onUpdatePosition({ x: e.clientX - dragOffset.current.x, y: e.clientY - dragOffset.current.y });
+    const onUp = () => setIsDragging(false);
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
     };
-  }, [isDragging, dragOffset, window.isFullscreen, onUpdatePosition]);
+  }, [isDragging, onUpdatePosition]);
 
-  if (!window.isOpen) return null;
+  const vw = globalThis.innerWidth;
+  const vh = globalThis.innerHeight;
+  const isMobile = vw < 640;
 
-  const getDockIconPosition = () => {
-    const dockItems = ['about', 'skills', 'experience', 'projects', 'achievements', 'resume', 'links'];
-    const index = dockItems.indexOf(window.id);
-    const itemWidth = window.innerWidth < 640 ? 48 : 64;
-    const spacing = window.innerWidth < 640 ? 4 : 8;
-    const dockWidth = dockItems.length * itemWidth + (dockItems.length - 1) * spacing;
-    const startX = (window.innerWidth - dockWidth) / 2;
-    
-    return {
-      x: startX + (index * (itemWidth + spacing)),
-      y: window.innerHeight - (window.innerWidth < 640 ? 50 : 60)
-    };
-  };
+  const geometry = win.isFullscreen
+    ? { left: 0, top: MENU_BAR_HEIGHT, width: vw, height: vh - MENU_BAR_HEIGHT }
+    : isMobile
+      ? { left: 8, top: win.position.y, width: vw - 16, height: win.size.height }
+      : { left: win.position.x, top: win.position.y, width: win.size.width, height: win.size.height };
 
-  const windowVariants = {
-    hidden: { 
-      scale: 0.7, 
-      opacity: 0,
-      y: 100,
-      rotateX: -15,
-    },
-    visible: { 
-      scale: 1, 
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 25,
-        mass: 0.8,
-        opacity: { duration: 0.3 },
-      }
-    },
-    minimized: {
-      scale: 0.05,
-      opacity: 0,
-      y: 50,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-        duration: 0.6,
-      }
-    },
-    fullscreen: {
-      scale: 1,
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        stiffness: 150,
-        damping: 20,
-        duration: 0.8,
-      }
-    }
-  };
+  const visualState = win.isMinimized
+    ? { opacity: 0, scale: 0.15, y: vh - geometry.top - geometry.height / 2 }
+    : { opacity: 1, scale: 1, y: 0 };
 
-  const getWindowStyle = () => {
-    if (window.isFullscreen) {
-      return { 
-        width: '100vw', 
-        height: '100vh', 
-        top: 0, 
-        left: 0,
-      };
-    }
-    
-    if (window.isMinimized) {
-      const dockPosition = getDockIconPosition();
-      const iconSize = window.innerWidth < 640 ? 48 : 56;
-      return {
-        width: `${iconSize}px`,
-        height: `${iconSize}px`,
-        top: dockPosition.y,
-        left: dockPosition.x,
-      };
-    }
-    
-    return {
-      width: window.size.width,
-      height: window.size.height,
-      top: window.position.y,
-      left: window.position.x,
-    };
-  };
+  const spring = { type: 'spring', stiffness: 260, damping: 28, mass: 0.8 };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        ref={windowRef}
-        className={`fixed backdrop-blur-2xl rounded-xl sm:rounded-2xl shadow-2xl border overflow-hidden ${
-          window.isFullscreen ? 'rounded-none' : ''
-        }`}
+    <motion.div
+      className="fixed flex flex-col"
+      style={{
+        zIndex: win.zIndex,
+        pointerEvents: win.isMinimized ? 'none' : 'auto',
+        transformOrigin: 'center bottom',
+      }}
+      initial={{ ...geometry, opacity: 0, scale: 0.9, y: 30 }}
+      animate={{ ...geometry, ...visualState }}
+      exit={{ opacity: 0, scale: 0.92, y: 20, transition: { duration: 0.18 } }}
+      transition={
+        isDragging
+          ? { left: { duration: 0 }, top: { duration: 0 }, default: spring }
+          : spring
+      }
+      onPointerDown={onBringToFront}
+    >
+      {/* Animated gradient border for the focused window */}
+      <div
+        className={`absolute -inset-px overflow-hidden transition-opacity duration-500 ${
+          win.isFullscreen ? 'rounded-none' : 'rounded-2xl'
+        } ${isFocused ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          ...getWindowStyle(),
-          zIndex: window.zIndex,
-          background: 'rgba(255, 255, 255, 0.08)',
-          borderColor: 'rgba(255, 255, 255, 0.2)',
-          boxShadow: `
-            0 25px 50px -12px rgba(0, 0, 0, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2)
-          `,
+          padding: 1,
+          WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
+          WebkitMaskComposite: 'xor',
+          mask: 'linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0)',
         }}
-        variants={windowVariants}
-        initial="hidden"
-        animate={
-          window.isMinimized ? "minimized" : 
-          window.isFullscreen ? "fullscreen" : 
-          "visible"
-        }
-        onMouseDown={onBringToFront}
-        whileHover={!isDragging ? { 
-          boxShadow: `
-            0 32px 64px -12px rgba(0, 0, 0, 0.5),
-            0 0 0 1px rgba(255, 255, 255, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25)
-          `,
-          scale: 1.01,
-        } : {}}
-        transition={{ duration: 0.2 }}
       >
-        {/* Frosted Glass Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none rounded-xl sm:rounded-2xl" />
-        
-        {/* Window Header */}
-        <motion.div
-          className="window-header relative flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-sm border-b cursor-move flex-shrink-0"
+        <div
+          className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
           style={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderColor: 'rgba(255, 255, 255, 0.15)',
+            background:
+              'conic-gradient(from 0deg, transparent 0deg, #a78bfa 60deg, #f0abfc 120deg, transparent 180deg, transparent 200deg, #67e8f9 280deg, transparent 340deg)',
           }}
-          onMouseDown={handleMouseDown}
-          whileHover={{ 
-            background: "rgba(255, 255, 255, 0.15)",
-            transition: { duration: 0.2 }
+        />
+      </div>
+
+      {/* Window body */}
+      <div
+        className={`relative flex h-full flex-col overflow-hidden border bg-ink-900/85 backdrop-blur-2xl ${
+          win.isFullscreen ? 'rounded-none' : 'rounded-2xl'
+        } ${isFocused ? 'border-transparent' : 'border-white/10'}`}
+        style={{
+          boxShadow: isFocused
+            ? '0 40px 100px -20px rgba(0,0,0,0.8), 0 0 60px -15px rgba(167,139,250,0.35)'
+            : '0 25px 60px -20px rgba(0,0,0,0.7)',
+        }}
+      >
+        {/* Title bar */}
+        <div
+          className={`relative flex h-11 flex-shrink-0 select-none items-center border-b border-white/[0.06] bg-white/[0.03] px-4 ${
+            win.isFullscreen || isMobile ? '' : isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
+          onPointerDown={handlePointerDown}
+          onDoubleClick={e => {
+            if (!(e.target as HTMLElement).closest('button')) onToggleFullscreen();
           }}
         >
           <WindowControls
             onClose={onClose}
             onMinimize={onMinimize}
             onToggleFullscreen={onToggleFullscreen}
-            isFullscreen={window.isFullscreen}
+            isFullscreen={win.isFullscreen}
           />
-          <div className="flex-1 text-center">
-            <h2 className="text-xs sm:text-sm font-medium text-white/90 drop-shadow-sm truncate px-2">
-              {window.title}
-            </h2>
+          <div className="pointer-events-none absolute inset-x-0 flex items-center justify-center gap-2">
+            {Icon && (
+              <span className={`flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br ${app?.gradient}`}>
+                <Icon className="h-3 w-3 text-white" />
+              </span>
+            )}
+            <span className={`text-[13px] font-medium transition-colors ${isFocused ? 'text-white/90' : 'text-white/45'}`}>
+              {win.title}
+            </span>
           </div>
-          <div className="w-10 sm:w-14" />
-          
-          {/* Header Shine Effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            animate={{
-              x: ['-100%', '100%'],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatDelay: 5,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
+          <span className="ml-auto hidden font-mono text-[11px] text-white/30 md:block">~/vaibhav/{win.id}</span>
+        </div>
 
-        {/* Window Content */}
-        <div 
-          className="flex-1 overflow-hidden relative" 
-          style={{ height: 'calc(100% - 45px)' }}
-        >
-          {/* Content Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-black/10 to-black/30 backdrop-blur-sm" />
-          
-          {/* Scrollable Content */}
-          <div className="relative h-full overflow-y-auto overflow-x-hidden">
-            {children}
-          </div>
-          
-          {/* Content Overlay for Depth */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-white/5 pointer-events-none" />
+        {/* Content */}
+        <div className={`relative flex-1 overflow-y-auto overflow-x-hidden ${win.isFullscreen ? 'pb-24' : ''}`}>
+          {children}
         </div>
-        
-        {/* Window Border Glow */}
-        <div className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none">
-          <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-50" />
-        </div>
-      </motion.div>
-    </AnimatePresence>
+
+        {/* Dim unfocused windows slightly */}
+        <div
+          className={`pointer-events-none absolute inset-0 bg-ink-950/25 transition-opacity duration-300 ${
+            isFocused ? 'opacity-0' : 'opacity-100'
+          }`}
+        />
+      </div>
+    </motion.div>
   );
 };
 
