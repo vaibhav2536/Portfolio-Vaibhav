@@ -39,7 +39,7 @@ export const stats: Stat[] = [
 export const currentlyDoing = [
   { label: "Working", value: "Software Engineer @ Stashfin" },
   { label: "Running", value: "Outlynk: AI training & staff augmentation" },
-  { label: "Authoring", value: "Terminal-Bench & SWE-bench tasks" },
+  { label: "Freelancing", value: "AI Specialist" },
 ];
 
 export const education = {
